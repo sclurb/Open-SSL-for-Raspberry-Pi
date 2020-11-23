@@ -3,8 +3,6 @@
 #include <unistd.h>
 #include <string.h>	//strlen
 
-
-
 char getIotResponse(char* reply, char* errorMessage)
 {
     int socket_IotServer;
@@ -16,7 +14,6 @@ char getIotResponse(char* reply, char* errorMessage)
     socket_IotServer = socket(AF_INET, SOCK_STREAM, 0);
 	if(socket_IotServer == -1)
 	{
-		//printf("Could not create socket for IoT Device\n");
         errorMessage = "Could not create socket for IoT device";
         return 1;
 	}
@@ -25,19 +22,16 @@ char getIotResponse(char* reply, char* errorMessage)
 	server_Iot.sin_port = htons(portIot);
     if (connect(socket_IotServer, (struct sockaddr*)&server_Iot, sizeof(server_Iot)) < 0)
 	{
-		//puts("Could not connect to IoT Device\n");
         errorMessage = "Could not connect to IoT device";
         return 1;
 	}
     if(send(socket_IotServer, message_Iot, strlen(message_Iot), 0) < 0)
 	{
-		//puts("Message to IoT Device failed\n");
         errorMessage = "Mesage to IoT device failed";
         return 1;
 	}
     if (recv(socket_IotServer, reply, 2000, 0) < 0)
 	{
-		//puts("Did not Receive a message from IoT Device\n");
         errorMessage = "Did not receive a message from IoT device";
         return 1;
 	}
